@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLOCK</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            padding:0px;
+            margin:0px;
+
+        }
+        body {
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height:100vh;
+        }
+        .toggle {
+            position: absolute;
+            bottom:100px;
+            left:50%;
+            background-color: transparent;
+            transform: translate(-50%);
+            padding: 10px 20px;
+            border:0;
+            background-color: #607D8B;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0px  0px 25px 1px rgba(0, 0, 0, 0.5) , 2px 2px 20px 3px rgba(0, 0, 0, 0.5) inset;
+            font-weight: bold;
+        }
+        .clock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+        .time {
+            font-size: 60px;
+        }
+        .date {
+            font-size: 30px;
+        }
+        .clock {
+            background-color: #607D8B;
+            height:200px;
+            width:200px;
+            border-radius: 50%;
+            box-shadow: 0px  0px 25px 1px rgba(0, 0, 0, 0.5) , 2px 2px 20px 3px rgba(0, 0, 0, 0.5) inset;
+            border:7px solid rgb(68, 65, 65);
+            margin-bottom: 50px;
+            position: relative;
+        }
+        .hand {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+        }
+       
+        .hand.hour {
+            background-color: black;
+            width:5px;
+            height: 65px;
+            transform: translate(-50%, -100%) rotate(0deg);
+        }
+        .hand.minute {
+            background-color: black;
+            width:3px;
+            height: 70px;
+            transform: translate(-50%, -100%) rotate(0deg);
+        }
+        .hand.second {
+            background-color: rgb(248, 15, 15);
+            width:2px;
+            height: 80px;
+            transform: translate(-50%, -100%) rotate(0deg);
+        }
+        .center-point {
+            background-color: rgb(248, 15, 15);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 10px;
+            width:10px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+
+        <div class="clock">
+
+            <div class="hand hour" id="hour"></div>
+            <div class="hand minute" id="minute"> </div>
+            <div class="hand second" id="second"></div>
+            <div class="center-point"></div>
+        </div>
+            <div class="time" id="time"></div>
+            <div class="date" id="date"></div>
+            
+            <button class="toggle" id="toggle" onclick="mode()">DARK MODE</button>
+        
+    </div>
+
+    
+
+</body>
+</html>
+
+<script>
+
+    let hourstick = document.getElementById("hour")
+    let minutestick = document.getElementById("minute")
+    let secondstick = document.getElementById("second")
+    
+    let btn = document.getElementById("toggle")
+    let dates = document.getElementById("date")
+    let times = document.getElementById("time")
+
+    let week = ["Sumday" , "Monday" , "Tuesday" , "Wednesday" , "Thursday" , "Friday" , "Saturday"]
+    
+    let monthss = ["Jan" , "Feb" , "March" , "Apr" , "May" , "June" , "July" , "Aug" ,  "Sept" , "Oct" , "Nov" , "Dec"]
+
+    setInterval(() => {
+
+    let time = new Date()
+    let day = time.getDay()
+    
+    let date = time.getDate()
+    let month = time.getMonth()
+    let hour = time.getHours()
+
+    let hour12 = hour % 12
+    let minute = time.getMinutes()
+    let second = time.getSeconds()
+    let ampm = hour > 12 ? "PM" : "AM" ;
+
+    dates.innerText = `${week[day]} , ${date} ${monthss[month]}`
+    times.innerText = `${hour12} : ${minute < 10 ? `0${minute}` : minute} ${ampm}`
+
+
+    hourstick.style.transform = `translate(-50% , -100%) rotate(${hour * 30}deg)`
+
+    minutestick.style.transform = `translate(-50% , -100%) rotate(${minute * 6}deg)`
+
+    secondstick.style.transform = `translate(-50% , -100%) rotate(${second * 6}deg)`
+
+    }, 1000);
+
+    let body = document.querySelector("body")
+   
+    let flag = true
+    function mode() {
+        let clock = document.querySelector(".clock")
+        if(flag == true) {
+            clock.style.backgroundColor = "white"
+            body.style.backgroundColor = "#607D8B"
+            dates.style.color = "white"
+            times.style.color = "white"
+            btn.style.backgroundColor = "white"
+            btn.style.color = "#607D8B"
+            flag = false
+        } else {
+            clock.style.backgroundColor = "#607D8B"
+            body.style.backgroundColor = "white"
+            dates.style.color = "black"
+            times.style.color = "black"
+            btn.style.backgroundColor = "#607D8B"
+            btn.style.color = "white"
+            flag = true
+        }
+
+    }
+</script>
